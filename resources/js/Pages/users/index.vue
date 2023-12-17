@@ -1,7 +1,39 @@
 <template>
     <!-- component -->
     <section class="container mx-auto p-6 font-mono">
-        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <Loading :active.sync="isLoading"/>
+        <div>
+
+            <div class="flex">
+                <div>
+                    
+                    <div href="#" class="block max-w-sm p-6 mr-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-200 dark:border-gray-200 dark:hover:bg-gray-100">
+
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-700">Lecturers</h5>
+                    <div class="flex">
+                        <p class="font-normal text-gray-700 dark:text-gray-600">male: 10</p> | <p class="font-normal text-gray-700 dark:text-gray-600">female: 5</p>
+                    </div>
+                    
+                    </div>
+
+                </div>
+                <div>
+                    
+                    <div href="#" class="block max-w-sm mx-6 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-200 dark:border-gray-200 dark:hover:bg-gray-100">
+
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-700">Students</h5>
+                    <div class="flex">
+                        <p class="font-normal text-gray-700 dark:text-gray-600">male: 10</p> | <p class="font-normal text-gray-700 dark:text-gray-600">female: 5</p>
+                    </div>
+                    
+                    </div>
+
+                </div>
+                
+
+            </div>
+        
+        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg mt-10">
             <div class="w-full overflow-x-auto">
                 <div>
                     <div class="p-2">
@@ -92,10 +124,8 @@
             </div>
         </div>
         <div>
-            <edit :datas="roles">
-
-            </edit>
        
+        </div>
         </div>
     </section>
 </template>
@@ -104,19 +134,20 @@
 import axios from 'axios';
 import sidebar from '../../Layouts/sidebar.vue'
 import Pagination from '../Components/Pagination.vue'
-import VueElementLoading from "vue-element-loading";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 export default {
     layout: (h, page) => h(sidebar, [page]),
     components: {
         Pagination,
-        VueElementLoading,
+        Loading,
     },
     props: {
 
     },
     data() {
         return {
-            loading: false,
+            isLoading: false,
             users: {},
             openDropdown: null,
             closeDropdown: null,
@@ -125,11 +156,12 @@ export default {
                 role: null,
             },
             roles: null,
-            
+            fullPage: null,
         }
     },
     methods: {
         getAllUsers(url = null) {
+            this.isLoading = true;
             let uri = url
             ? url
             : this.route("user_manager.get_all_users");
@@ -143,7 +175,7 @@ export default {
                     console.log(this.users)
                 }).catch((error) => {
                     console.log(error)
-                })
+                }).finally(this.isLoading = false);
         },
         getNextPage(k) {
         this.getAllUsers(k);

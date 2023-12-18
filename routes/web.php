@@ -23,6 +23,8 @@ Route::prefix('/user_manager')->middleware('admin')->name('user_manager.')->grou
     Route::get('/get_all_users', [UserManagerController::class, 'getAllUsers'])->name('get_all_users');
     Route::get('/user_analytic', [UserManagerController::class, 'userAnalytic'])->name('user_analytic');
     Route::get('/get_all_roles', [UserManagerController::class, 'getAllRoles'])->name('get_all_roles');
+    Route::post('/create_student', [UserManagerController::class, 'CreateStudent'])->name('create_student')->withoutMiddleware('admin');
+    Route::post('/create_lecturer', [UserManagerController::class, 'CreateLecturer'])->name('create_lecturer')->withoutMiddleware('admin');
 });
 
 Route::middleware([

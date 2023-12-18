@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('lecturers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->foreignId('Department_id')->references('id')->on('departments');
+            $table->foreignId('Department_id')->nullable()->references('id')->on('departments');
             $table->timestamps();
         });
     }

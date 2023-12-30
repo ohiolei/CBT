@@ -2,63 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Inertia\Inertia;
-use App\Models\Student;
 use App\Models\Lecturer;
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 
 class UserManagerController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return Inertia::render('users/index');
     }
-    public function getAllRoles(){
+    public function getAllRoles()
+    {
 
         $roles = Role::all();
 
         return response()->json($roles, 200);
     }
 
-    public function userAnalytic(){
+    public function userAnalytic()
+    {
         $userQuery = User::with('roles');
-        
+
         $super_admin = $userQuery->whereHas('roles', function ($query) {
             $query->where('name', 'super admin');
-        })->get();
+        })->count();
         dd($super_admin);
         $admin = $userQuery->whereHas('roles', function ($query) {
             $query->where('name', 'admin');
         })->count();
-        
+
         $student = $userQuery->whereHas('roles', function ($query) {
             $query->where('name', 'student');
         })->count();
-        
+
         $lecturer = $userQuery->whereHas('roles', function ($query) {
             $query->where('name', 'lecturer');
         })->count();
-        
+
         return response()->json([
             'super_admin' => $super_admin,
             'admin' => $admin,
             'student' => $student,
             'lecturer' => $lecturer,
         ], 200);
-        
+
     }
-    public function getAllUsers(Request $request){
+    public function getAllUsers(Request $request)
+    {
         $userQuery = User::with('roles');
-        
+
         $user = $userQuery->when($request->filled('filters.name') || $request->filled('filters.role'), function ($query) use ($request) {
             $query->where(function ($query) use ($request) {
-            
+
                 if ($request->filled('filters.name')) {
-                    $query->where('name','like', '%' .  $request->input('filters.name'). '%' );
+                    $query->where('name', 'like', '%' . $request->input('filters.name') . '%');
                 }
-        
-                if($request->filled('filters.role')) {
+
+                if ($request->filled('filters.role')) {
                     $query->orWhereHas('roles', function ($roleQuery) use ($request) {
                         $roleQuery->where('name', $request->input('filters.role'));
                     });
@@ -88,41 +92,60 @@ class UserManagerController extends Controller
         return $matricNumber;
     }
 
-    public function CreateStudent(){
+    public function CreateStudent()
+    {
 
-            $roles = ['super_admin', 'admin', 'student', 'lecturer'];
-            $user = auth()->user();
+        $roles = ['super_admin', 'admin', 'student', 'lecturer'];
+        $userId = auth()->user()->id;
+        $user = User::findOrFail($userId);
+        $existingStudent = Student::where('user_id', $userId)->first();
+        $existingLecturer = Lecturer::where('user_id', $userId)->first();
+        $user->assignRole("student");
+        if($existingStudent || $existingLecturer){
+            return response()->json(['error' => 'Student record already exists for this user'], 422);
+        }   
+        $matricNumber = $this->generateMatricNumber();
 
-            $matricNumber = $this->generateMatricNumber();
-            
+        if(!$existingStudent || !$existingLecturer){
             Student::create([
                 'user_id' => $user->id,
                 'matric_number' => $matricNumber,
             ]);
-
-            if($user->hasAnyRole($roles)){
-                return response()->json('user has a role', 404);
-             }
-             else{
-                 $user->assignRole("student");
-             }
-           
             
+            return response()->json(['message' => 'Student record created succesfully'], 200);
+        }
+       
+        
+
     }
 
-    public function CreateLecturer(){
+    public function CreateLecturer(Request $request)
+    {
         $roles = ['super_admin', 'admin', 'student', 'lecturer'];
-        $user = auth()->user();
+        $userId = auth()->user()->id;
+        $user = User::findOrFail($userId);
+        $existingLecturer = Lecturer::where('user_id', $userId)->first();
+        $existingStudent = Student::where('user_id', $userId)->first();
+        $user->assignRole("lecturer");
+        if($existingLecturer || $existingStudent){
+            return response()->json(['error' => 'Lecturer record already exists for this user'], 422);
+        }    
+        if (!$existingLecturer || !$existingStudent) {
+            Lecturer::create([
+                'user_id' => $user->id,
+            ]);
+            
+            return response()->json(['message' => 'Lecturer record created succesfully'], 200);
+            
+        }
+    }
+    public function FetchStudentMatric()
+    {
+       // fetch matric number
+        $userId = auth()->user()->id;
+        $matricNumber = Student::where('user_id', $userId)->first();
+        return response()->json(['data' => $matricNumber], 200);
         
-        Lecturer::create([
-            'user_id' => $user->id,
-        ]);
 
-        if($user->hasAnyRole($roles)){
-            return response()->json('user has a role', 404);
-         }
-         else{
-             $user->assignRole("lecturer");
-         }
     }
 }

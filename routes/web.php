@@ -25,6 +25,7 @@ Route::prefix('/user_manager')->middleware('admin')->name('user_manager.')->grou
     Route::get('/get_all_roles', [UserManagerController::class, 'getAllRoles'])->name('get_all_roles');
     Route::post('/create_student', [UserManagerController::class, 'CreateStudent'])->name('create_student')->withoutMiddleware('admin');
     Route::post('/create_lecturer', [UserManagerController::class, 'CreateLecturer'])->name('create_lecturer')->withoutMiddleware('admin');
+    Route::get('/fetch_student_matric', [UserManagerController::class, 'FetchStudentMatric'])->name('fetch_student_matric')->withoutMiddleware('admin');
 });
 
 Route::middleware([

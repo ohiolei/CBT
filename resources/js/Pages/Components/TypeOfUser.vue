@@ -6,14 +6,17 @@
                 Matric No: {{ student.matric_number }}
             </div>
             <div v-else>
-                
+
             </div>
-            <h1 class="mt-8 text-2xl font-medium text-gray-900">
+            <h1 class="mt-8 text-2xl font-medium text-gray-900" v-if="this.$page.props.user_role[0] == 'student'">
                 As a student you can chose the kind of test you wanna take
+            </h1>
+            <h1 class="mt-8 text-2xl font-medium text-gray-900" v-if="this.$page.props.user_role[0] == 'lecturer'">
+                As a Lecturer you can set courses and exams 
             </h1>
         </div>
 
-        <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
+        <div class="bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
             <div v-if="!this.$page.props.user_role[0]">
                 <div class="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -72,25 +75,31 @@
                     </button>
                 </p>
             </div>
-
-
-            <div v-if="this.$page.props.user_role[0] == 'student'">
-                <StdIndex>
-                    
-                </StdIndex>
-            </div>
-            <div v-if="this.$page.props.user_role[0] == 'lecturer'">
-                <ltrIndex>
-                    
-                </ltrIndex>
-            </div>
         </div>
+        <div class="">
+                <div v-if="this.$page.props.user_role[0] == 'student'">
+                    <StdIndex>
+
+                    </StdIndex>
+                </div>
+                <div v-if="this.$page.props.user_role[0] == 'lecturer'">
+                    <ltrIndex>
+
+                    </ltrIndex>
+                </div>
+                <div v-if="this.$page.props.user_role[0] == 'super_admin' || this.$page.props.user_role[0] == 'admin'">
+                    <super_admin>
+
+                    </super_admin>
+                </div>
+            </div>
     </div>
 </template>
 <script>
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import StdIndex from './student/index.vue'
 import ltrIndex from './lecturer/index.vue'
+import super_admin from './super_admin/index.vue'
 import axios from 'axios';
 
 export default {
@@ -100,6 +109,7 @@ export default {
     components: {
         StdIndex,
         ltrIndex,
+        super_admin,
     },
     data() {
         return {
@@ -121,7 +131,7 @@ export default {
         getStudentData() {
             axios.get('user_manager/fetch_student_matric').then((res) => {
                 this.student = res.data.data
-                
+
             })
         }
     },

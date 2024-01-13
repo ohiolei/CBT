@@ -4,7 +4,7 @@
             <span>click here to set up a </span>
             <span>
                 <button @click="openModal()" class="text-red-500">
-                    course
+                    college
                 </button>
             </span>
         </div>
@@ -17,14 +17,14 @@
 
         </div>
     </div>
-    <createCourse :showModal="showModal" @close="closeModal()"/>
+    <createCollege :showModal="showModal" @close="closeModal()"/>
 </template>
 
 <script>
-import createCourse from './course/create.vue'
+import createCollege from './college/create.vue'
 export default {
     components: {
-        createCourse,
+        createCollege,
     }, 
     data() {
         return{

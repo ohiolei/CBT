@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\IndexController;
-use App\Http\Controllers\UserManagerController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\collegeController;
+use App\Http\Controllers\UserManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,11 @@ Route::prefix('/user_manager')->middleware('admin')->name('user_manager.')->grou
     Route::post('/create_student', [UserManagerController::class, 'CreateStudent'])->name('create_student')->withoutMiddleware('admin');
     Route::post('/create_lecturer', [UserManagerController::class, 'CreateLecturer'])->name('create_lecturer')->withoutMiddleware('admin');
     Route::get('/fetch_student_matric', [UserManagerController::class, 'FetchStudentMatric'])->name('fetch_student_matric')->withoutMiddleware('admin');
+});
+
+Route::prefix('college')->middleware('admin')->name('college.')->group(function(){
+    Route::post('/create', [collegeController::class, 'createCollege'])->name('create');
+    Route::get('/get_all_college', [collegeController::class, 'getAllCollege'])->name('get_all_college');
 });
 
 Route::middleware([

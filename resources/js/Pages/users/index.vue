@@ -10,10 +10,10 @@
                     <div href="#"
                         class="block max-w-sm p-6 mr-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-200 dark:border-gray-200 dark:hover:bg-gray-100">
 
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-700">Lecturers</h5>
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-700">Super Admin</h5>
                         <div class="flex">
-                            <p class="font-normal text-gray-700 dark:text-gray-600">male: 10</p> | <p
-                                class="font-normal text-gray-700 dark:text-gray-600">female: 5</p>
+                            <p class="font-normal text-gray-700 dark:text-gray-600">Total: <span> {{ analytic?.super_admin }}
+                                </span></p>
                         </div>
 
                     </div>
@@ -22,12 +22,41 @@
                 <div>
 
                     <div href="#"
+                        class="block max-w-sm p-6 mr-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-200 dark:border-gray-200 dark:hover:bg-gray-100">
+
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-700">Admin</h5>
+                        <div class="flex">
+                            <p class="font-normal text-gray-700 dark:text-gray-600">Total: <span> {{ analytic?.admin }}
+                                </span></p>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div>
+
+                    <div href="#"
+                        class="block max-w-sm p-6 mr-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-200 dark:border-gray-200 dark:hover:bg-gray-100">
+
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-700">Lecturers</h5>
+                        <div class="flex">
+                            <p class="font-normal text-gray-700 dark:text-gray-600">Total: <span> {{ analytic?.lecturer }}
+                                </span></p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <div href="#"
                         class="block max-w-sm mx-6 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-200 dark:border-gray-200 dark:hover:bg-gray-100">
 
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-700">Students</h5>
                         <div class="flex">
-                            <p class="font-normal text-gray-700 dark:text-gray-600">male: 10</p> | <p
-                                class="font-normal text-gray-700 dark:text-gray-600">female: 5</p>
+                            <p class="font-normal text-gray-700 dark:text-gray-600">Total: <span> {{ analytic?.student }}
+                                </span></p>
                         </div>
 
                     </div>
@@ -159,6 +188,7 @@ export default {
             },
             roles: null,
             fullPage: null,
+            analytic: null,
         }
     },
     methods: {
@@ -192,7 +222,7 @@ export default {
         },
         getUserAnalytic() {
             axios.get('user_manager/user_analytic').then((res) => {
-                console.log(res)
+                this.analytic = res.data
             })
         },
         toggleDropdown(userId) {
@@ -219,7 +249,10 @@ export default {
     mounted() {
         this.getAllUsers(this.current)
         this.getAllRoles()
-        this.getUserAnalytic()
+
+    },
+    created() {
+        this.getUserAnalytic();
     }
 }
 </script>

@@ -31,7 +31,7 @@ export default {
             showModal: false, 
         }
     },
-    methods:{
+    methods:{ 
         openModal: function(){
         this.showModal = true;
       },

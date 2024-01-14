@@ -15,7 +15,7 @@
           <div class="my-1 text-blueGray-500 text-lg leading-relaxed p-6">
             <input type="text" placeholder="Course Title" class="w-full my-1 px-4 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm border border-blueGray-300 focus:outline-none focus:border-teal-500 focus:ring focus:ring-teal-200" />
             <input type="text" placeholder="Course Code" class="w-full my-1 px-4 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm border border-blueGray-300 focus:outline-none focus:border-teal-500 focus:ring focus:ring-teal-200" />
-            <input type="text" placeholder="Course Code" class="w-full my-1 px-4 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm border border-blueGray-300 focus:outline-none focus:border-teal-500 focus:ring focus:ring-teal-200" />
+            <input type="text" placeholder="College" class="w-full my-1 px-4 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm border border-blueGray-300 focus:outline-none focus:border-teal-500 focus:ring focus:ring-teal-200" />
           </div>
        
       </div>
@@ -37,6 +37,7 @@
 </template>
   
 <script>
+import axios from 'axios'
 export default {
     name: "regular-modal",
     data() {
@@ -48,9 +49,15 @@ export default {
         showModal: Boolean
     },
     methods: {
-        closeModal: function () {
+        closeModal() {
             this.$emit('close');
+        },
+        getAllCollege(){
+          
         }
+    },
+    mounted(){
+      this.getAllCollege()
     }
 }
 </script>

@@ -25,29 +25,33 @@ class UserManagerController extends Controller
 
     public function userAnalytic()
     {
-        $userQuery = User::with('roles');
 
-        $super_admin = $userQuery->whereHas('roles', function ($query) {
-            $query->where('name', 'super admin');
-        })->count();
-        dd($super_admin);
-        $admin = $userQuery->whereHas('roles', function ($query) {
-            $query->where('name', 'admin');
-        })->count();
+        // Retrieve users with roles
+        $userQuery = User::with('roles')->get();
 
-        $student = $userQuery->whereHas('roles', function ($query) {
-            $query->where('name', 'student');
-        })->count();
+        $super_admin = $userQuery->where(function ($user) {
+            return $user->roles->contains('name', 'super_admin');
+        });
+        $superAdminCount = $super_admin->count();
 
-        $lecturer = $userQuery->whereHas('roles', function ($query) {
-            $query->where('name', 'lecturer');
-        })->count();
+        $admin = $userQuery->where(function ($user) {
+            return $user->roles->contains('name', 'admin');
+        });
+        $adminCount = $admin->count();
+        $student = $userQuery->where(function ($user) {
+            return $user->roles->contains('name', 'student');
+        });
+        $studentCount = $student->count();
 
+        $lecturer =  $userQuery->where(function ($user) {
+            return $user->roles->contains('name', 'lecturer');
+        });
+        $lecturerCount = $lecturer->count();
         return response()->json([
-            'super_admin' => $super_admin,
-            'admin' => $admin,
-            'student' => $student,
-            'lecturer' => $lecturer,
+            'super_admin' => $superAdminCount,
+            'admin' => $adminCount,
+            'student' => $studentCount,
+            'lecturer' => $lecturerCount,
         ], 200);
 
     }
@@ -101,21 +105,19 @@ class UserManagerController extends Controller
         $existingStudent = Student::where('user_id', $userId)->first();
         $existingLecturer = Lecturer::where('user_id', $userId)->first();
         $user->assignRole("student");
-        if($existingStudent || $existingLecturer){
+        if ($existingStudent || $existingLecturer) {
             return response()->json(['error' => 'Student record already exists for this user'], 422);
-        }   
+        }
         $matricNumber = $this->generateMatricNumber();
 
-        if(!$existingStudent || !$existingLecturer){
+        if (!$existingStudent || !$existingLecturer) {
             Student::create([
                 'user_id' => $user->id,
                 'matric_number' => $matricNumber,
             ]);
-            
+
             return response()->json(['message' => 'Student record created succesfully'], 200);
         }
-       
-        
 
     }
 
@@ -127,25 +129,24 @@ class UserManagerController extends Controller
         $existingLecturer = Lecturer::where('user_id', $userId)->first();
         $existingStudent = Student::where('user_id', $userId)->first();
         $user->assignRole("lecturer");
-        if($existingLecturer || $existingStudent){
+        if ($existingLecturer || $existingStudent) {
             return response()->json(['error' => 'Lecturer record already exists for this user'], 422);
-        }    
+        }
         if (!$existingLecturer || !$existingStudent) {
             Lecturer::create([
                 'user_id' => $user->id,
             ]);
-            
+
             return response()->json(['message' => 'Lecturer record created succesfully'], 200);
-            
+
         }
     }
     public function FetchStudentMatric()
     {
-       // fetch matric number
+        // fetch matric number
         $userId = auth()->user()->id;
         $matricNumber = Student::where('user_id', $userId)->first();
         return response()->json(['data' => $matricNumber], 200);
-        
 
     }
 }

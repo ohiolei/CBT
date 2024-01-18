@@ -105,7 +105,7 @@ export default {
 
     },
     mounted(){
-        console.log('role', this.$page.props.user_role);
+      
     }
 }
 </script>

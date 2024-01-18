@@ -39,12 +39,12 @@ class DatabaseSeeder extends Seeder
             'name' => 'Williams Dolapo',
             'email' => 'dolapo@gmail.com',
             'password' => Hash::make('12345'),
-        ])->assignRole('lecturer');
+        ]);
 
         $student = User::create([
             'name' => 'Olatunji Busola',
             'email' => 'busola@gmail.com',
             'password' => Hash::make('12345'),
-        ])->assignRole('student');
+        ]);
     }
 }

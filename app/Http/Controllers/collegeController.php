@@ -21,6 +21,6 @@ class collegeController extends Controller
     public function getAllCollege(){
         $college = College::all();
 
-        return response()->json(['data' => $college], 200);
+        return response()->json(['data' =>$college], 200);
     }
 }

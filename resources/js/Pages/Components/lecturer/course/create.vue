@@ -42,7 +42,8 @@ export default {
     name: "regular-modal",
     data() {
         return {
-            showModal: false
+            showModal: false,
+            college: null,
         }
     },
     props: {
@@ -53,7 +54,9 @@ export default {
             this.$emit('close');
         },
         getAllCollege(){
-          
+           axios.get('college/get_all_college').then(res => {
+             this.college = res.data
+           }).catch()
         }
     },
     mounted(){

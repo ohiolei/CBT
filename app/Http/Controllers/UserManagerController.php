@@ -38,15 +38,17 @@ class UserManagerController extends Controller
             return $user->roles->contains('name', 'admin');
         });
         $adminCount = $admin->count();
+        
         $student = $userQuery->where(function ($user) {
             return $user->roles->contains('name', 'student');
         });
         $studentCount = $student->count();
-
+    
         $lecturer =  $userQuery->where(function ($user) {
             return $user->roles->contains('name', 'lecturer');
         });
         $lecturerCount = $lecturer->count();
+       
         return response()->json([
             'super_admin' => $superAdminCount,
             'admin' => $adminCount,
@@ -104,7 +106,7 @@ class UserManagerController extends Controller
         $user = User::findOrFail($userId);
         $existingStudent = Student::where('user_id', $userId)->first();
         $existingLecturer = Lecturer::where('user_id', $userId)->first();
-        $user->assignRole("student");
+        
         if ($existingStudent || $existingLecturer) {
             return response()->json(['error' => 'Student record already exists for this user'], 422);
         }
@@ -115,7 +117,7 @@ class UserManagerController extends Controller
                 'user_id' => $user->id,
                 'matric_number' => $matricNumber,
             ]);
-
+            $user->assignRole("student");
             return response()->json(['message' => 'Student record created succesfully'], 200);
         }
 
@@ -128,7 +130,7 @@ class UserManagerController extends Controller
         $user = User::findOrFail($userId);
         $existingLecturer = Lecturer::where('user_id', $userId)->first();
         $existingStudent = Student::where('user_id', $userId)->first();
-        $user->assignRole("lecturer");
+        
         if ($existingLecturer || $existingStudent) {
             return response()->json(['error' => 'Lecturer record already exists for this user'], 422);
         }
@@ -136,7 +138,7 @@ class UserManagerController extends Controller
             Lecturer::create([
                 'user_id' => $user->id,
             ]);
-
+            $user->assignRole("lecturer");
             return response()->json(['message' => 'Lecturer record created succesfully'], 200);
 
         }

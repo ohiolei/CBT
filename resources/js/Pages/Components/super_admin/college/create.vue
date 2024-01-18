@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="showModal"
+    <div v-if="showCollegeModal"
       class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
       <div class="relative w-auto my-6 mx-auto max-w-4xl">
         <!--content-->
@@ -9,7 +9,7 @@
           <div
             class="flex text-teal-500 items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
             <h3 class="text-3xl font-semibold">
-              Create new course
+              Create new college
             </h3>
           </div>
           <!--body-->
@@ -34,13 +34,13 @@
             <button
               class="text-teal-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button" v-on:click="createCollege()">
-              Create Course
+              Create College
             </button>
           </div>
         </div>
       </div>
     </div>
-    <div v-if="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
+    <div v-if="showCollegeModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
 
   </div>
 </template>
@@ -51,14 +51,13 @@ export default {
   name: "regular-modal",
   data() {
     return {
-      showModal: false,
       college_name: null,
       college_code: null,
       campus: null,
     }
   },
   props: {
-    showModal: Boolean
+    showCollegeModal: Boolean
   },
   methods: {
     closeModal() {

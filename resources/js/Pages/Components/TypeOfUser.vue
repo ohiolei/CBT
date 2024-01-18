@@ -1,7 +1,6 @@
 <template>
     <div>
         <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
-            <ApplicationLogo class="block h-12 w-auto" />
             <div class="bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
                 <div v-if="!this.$page.props.user_role[0]">
                     <div class="flex items-center">
@@ -139,12 +138,10 @@ export default {
         getStudentData() {
             axios.get('user_manager/fetch_student_matric').then((res) => {
                 this.student = res.data.data
-
             })
         }
     },
     mounted() {
-        console.log({'data': this.$page.props.user_role[0]})
         this.getStudentData();
     }
 }

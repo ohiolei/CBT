@@ -18,7 +18,13 @@
 
         </div>
         <div class="bg-white p-6 rounded m-5">
-            we are lecturer
+            <span>click here to see the list of all </span>
+            <span>
+                <a href="college/list_all_college" class="text-red-500">
+                    colleges
+                </a>
+                <span>of the school</span>
+            </span>
 
         </div>
     </div>

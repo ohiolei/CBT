@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\College;
 use Illuminate\Http\Request;
 
@@ -23,4 +24,10 @@ class collegeController extends Controller
 
         return response()->json(['data' =>$college], 200);
     }
+
+    public function allCollegeTable(){
+        return Inertia::render('Components/super_admin/college/List');
+    }
+
+    
 }

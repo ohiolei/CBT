@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+use App\Models\College;
 use App\Models\Department;
 use Illuminate\Http\Request;
 
@@ -23,6 +25,13 @@ class DepartmentController extends Controller
     {
         $departments = Department::with('college')->get();
 
-        return response()->json(['data' => $departments]);
+        return response()->json(['data' => $departments], 200);
+    }
+
+    public function getCollegeForDepartment(String $id)
+    {
+        $departments = Department::where('college_id', $id)->with('college')->get();
+
+        return Inertia::render('Components/super_admin/department/list',['departments' => $departments]);
     }
 }

@@ -33,10 +33,12 @@ Route::prefix('/user_manager')->middleware('admin')->name('user_manager.')->grou
 Route::prefix('college')->middleware('admin')->name('college.')->group(function(){
     Route::post('/create', [collegeController::class, 'createCollege'])->name('create');
     Route::get('/get_all_college', [collegeController::class, 'getAllCollege'])->name('get_all_college');
+    Route::get('/list_all_college', [collegeController::class, 'allCollegeTable'])->name('list_all_college');
 });
 
 Route::prefix('department')->middleware('admin')->name('department.')->group(function(){
     Route::post('/create_department', [DepartmentController::class, 'createDepartment'])->name('create_department');
+    Route::get('/get_department/{id}', [DepartmentController::class, 'getCollegeForDepartment'])->name('get_department');
     Route::get('/get_all_department', [DepartmentController::class, 'getAllDepartment'])->name('get_all_department');
 });
 

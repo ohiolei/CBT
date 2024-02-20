@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lecture_id')->references('id')->on('lecturers')->nullable();
+            $table->string('course_title');
+            $table->foreignId('lecturer_id')->references('id')->on('lecturers')->nullable();
             $table->foreignId('Department_id')->references('id')->on('Departments')->nullable();
             $table->string('course_code');
             $table->timestamps();

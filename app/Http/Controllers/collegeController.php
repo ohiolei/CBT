@@ -21,12 +21,14 @@ class collegeController extends Controller
 
     public function getAllCollege(){
         $college = College::all();
-
+        
         return response()->json(['data' =>$college], 200);
     }
 
     public function allCollegeTable(){
+
         return Inertia::render('Components/super_admin/college/List');
+         
     }
 
     

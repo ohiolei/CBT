@@ -103,6 +103,7 @@ class UserManagerController extends Controller
 
         $roles = ['super_admin', 'admin', 'student', 'lecturer'];
         $userId = auth()->user()->id;
+        $userName = auth()->user()->name;
         $user = User::findOrFail($userId);
         $existingStudent = Student::where('user_id', $userId)->first();
         $existingLecturer = Lecturer::where('user_id', $userId)->first();
@@ -116,6 +117,7 @@ class UserManagerController extends Controller
             Student::create([
                 'user_id' => $user->id,
                 'matric_number' => $matricNumber,
+                'name' => $userName,
             ]);
             $user->assignRole("student");
             return response()->json(['message' => 'Student record created succesfully'], 200);
@@ -127,6 +129,7 @@ class UserManagerController extends Controller
     {
         $roles = ['super_admin', 'admin', 'student', 'lecturer'];
         $userId = auth()->user()->id;
+        $userName = auth()->user()->name;
         $user = User::findOrFail($userId);
         $existingLecturer = Lecturer::where('user_id', $userId)->first();
         $existingStudent = Student::where('user_id', $userId)->first();
@@ -137,6 +140,7 @@ class UserManagerController extends Controller
         if (!$existingLecturer || !$existingStudent) {
             Lecturer::create([
                 'user_id' => $user->id,
+                'name' => $userName,
             ]);
             $user->assignRole("lecturer");
             return response()->json(['message' => 'Lecturer record created succesfully'], 200);

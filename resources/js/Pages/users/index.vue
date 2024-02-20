@@ -167,6 +167,7 @@ import sidebar from '../../Layouts/sidebar.vue'
 import Pagination from '../Components/Pagination.vue'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
+
 export default {
     layout: (h, page) => h(sidebar, [page]),
     components: {

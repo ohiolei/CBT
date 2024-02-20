@@ -23,15 +23,22 @@ class DepartmentController extends Controller
 
     public function getAllDepartment()
     {
-        $departments = Department::with('college')->get();
-
+        $departments = Department::with('college')->orderBy('college_id')->get();
+        
         return response()->json(['data' => $departments], 200);
     }
 
-    public function getCollegeForDepartment(String $id)
+    public function getDepartmentForCollege(String $id)
     {
         $departments = Department::where('college_id', $id)->with('college')->get();
 
         return Inertia::render('Components/super_admin/department/list',['departments' => $departments]);
+    }
+
+    public function getDepartment(String $id)
+    {
+        $departments = Department::where('college_id', $id)->with('college')->get();
+
+        return response()->json(['data' => $departments], 200);
     }
 }

@@ -3,21 +3,20 @@
         <div class="bg-white p-6 rounded m-5">
             <span>click here to set up a </span>
             <span>
-                <button @click="openModal()" class="text-red-500">
+                <button @click="openCourseModal()" class="text-red-500">
                     course
                 </button>
             </span>
         </div>
         <div class="bg-white p-6 rounded m-5">
-            we are lecturer
-
+           Click <a href="/course/get_course_page" class="text-red-500">Here</a> to view courses
         </div>
         <div class="bg-white p-6 rounded m-5">
             we are lecturer
 
         </div>
     </div>
-    <createCourse :showModal="showModal" @close="closeModal()"/>
+    <createCourse :showCourseModal="showCourseModal" @close="closeCourseModal()"/>
 </template>
 
 <script>
@@ -28,15 +27,15 @@ export default {
     }, 
     data() {
         return{
-            showModal: false, 
+            showCourseModal: false, 
         }
     },
     methods:{ 
-        openModal: function(){
-        this.showModal = true;
+        openCourseModal: function(){
+        this.showCourseModal = true;
       },
-      closeModal: function(){
-        this.showModal = false;
+      closeCourseModal: function(){
+        this.showCourseModal = false;
       }
     },
     mounted(){

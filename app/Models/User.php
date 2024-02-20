@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-use App\Models\Lecturer;
+use App\Models\Courses;
 use App\Models\Student;
+use App\Models\Lecturer;
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Jetstream\HasProfilePhoto;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasPermissions;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasPermissions;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -73,5 +74,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function Lecturer()
     {
         return $this->hasOne(Lecturer::class);
+    }
+
+    public function course()
+    {
+        return $this->hasManyThroug(Lecturer::class, Courses::class);
     }
 }

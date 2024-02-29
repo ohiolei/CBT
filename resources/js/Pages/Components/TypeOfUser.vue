@@ -103,7 +103,7 @@
     </div>
 </template>
 <script>
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+
 import StdIndex from './student/index.vue'
 import ltrIndex from './lecturer/index.vue'
 import super_admin from './super_admin/index.vue'

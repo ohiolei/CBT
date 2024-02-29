@@ -1,58 +1,42 @@
 <template>
     <div>
-        <div>
-            <div class="p-2">
-                <div class="p-5 flex justify-end">
-                    <div>
-                        <select
-                            class="mx-2 px-7 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-gray-100  rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring "
-                            v-model="college_id" @change="getDepartment()">
-                            <option :value=null selected>-- college --</option>
-                            <option v-for="(college, index) in colleges" :key="index" :value="college.id">
-                                {{ college.college_name }}({{ college.college_code }})
-                            </option>
-                        </select>
-                    </div>
-                    <select
-                        class="mx-2 px-7 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-gray-100  rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring "
-                        v-model="department_id" @change="getCourses(); getLecturer()">
-                        <option :value=null selected>-- departments --</option>
-                        <option v-for="(department, index) in departments" :key="index" :value="department.id">
-                            {{ department.name }}
-                        </option>
-                    </select>
-
-                </div>
-
-                <table class="w-full">
-                    <thead>
-                        <tr
-                            class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+      <div v-if="showViewCourseModal"
+        class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
+        <div class="relative w-auto my-6 mx-auto max-w-4xl">
+          <!-- Increase max-w-4xl or choose a value that suits your design -->
+          <!--content-->
+          <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <!--header-->
+            <div
+              class="flex text-teal-500 items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+              <h3 class="text-3xl font-semibold">
+                Course assigned to you
+              </h3>
+            </div>
+            <!--body-->
+            <div class="w-full p-5">
+                <div class="">
+                    <table class="w-full">
+                        <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                             <th class="px-4 py-3">S/N</th>
                             <th class="px-4 py-3">Course Title</th>
                             <th class="px-4 py-3">Course Code</th>
-                            <th class="px-4 py-3">Lecturer in Charge</th>
                             <th class="px-4 py-3">Action</th>
                         </tr>
-                    </thead>
-                    <tbody class="bg-white">
-                        <tr class="text-gray-700" v-for="(course, index) in courses" :key="index">
+                        <tr v-for="(course,index) in courses" :key="index">
                             <td class="px-4 py-3 border">
-                                {{ index + 1 }}
+                               {{ index+1 }}
                             </td>
                             <td class="px-4 py-3 border">
-                                {{ course.course_title }}
+                               {{ course.course_title }}
                             </td>
                             <td class="px-4 py-3 text-xs border">
                                 <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">
-                                    {{ course.course_code }}
+                                  {{ course.course_code }}
                                 </span>
                             </td>
                             <td class="px-4 py-3 border">
-                                {{ course.lecturer.name }}
-                            </td>
-                            <td class="px-4 py-3 text-center text-sm border">
-                                <div class="relative inline-block text-left">
+                              <div class="relative inline-block text-left">
                                     <button @click="toggleDropdown(course.id)"
                                         class="px-2 py-1 rounded-md bg-gray-200 hover:bg-teal-500 hover:text-white">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -74,38 +58,55 @@
                                 </div>
                             </td>
                         </tr>
-
-                    </tbody>
-                </table>
+                    </table>
+                    <div class="bg-teal-800 text-white w-full p-3 text-center" v-if="courses.length <= 0">You do not have any course assigned to you</div>
+                </div>
+  
             </div>
+            <!--footer-->
+            <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+              <button
+                class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="button" v-on:click="closeModal()">
+                Close
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
+      <div v-if="showViewCourseModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
+  
     </div>
-</template>
-
-<script>
-import sidebar from '../../../../Layouts/sidebar.vue';
-import axios from 'axios';
-export default {
-    layout: (h, page) => h(sidebar, [page]),
-    components: {
-
-    },
-
+  </template>
+    
+  <script>
+  import axios from 'axios'
+  
+  export default {
+    name: "regular-modal",
     data() {
-        return {
-            openDropdown: null,
-            closeDropdown: null,
-            colleges: null,
-            college_id: null,
-            departments: null,
-            department_id: null,
-            courses: null,
-            lecturers: null,
-        }
+      return {
+        showViewCourseModal: false,
+        courses: null,
+        openDropdown: null,
+        closeDropdown: null,
+        message: null,
+      }
     },
-
+    props: {
+        showViewCourseModal: Boolean
+    },
     methods: {
-        toggleDropdown(courseId) {
+      closeModal() {
+        this.$emit('close');
+      },
+      fetchYourCourse(){
+        axios.get('course/coures_for_lecturer').then((res) => {
+          this.courses = res.data.data
+          console.log(this.courses)
+        }).catch()
+      },
+      toggleDropdown(courseId) {
             if (this.openDropdown === courseId) {
                 this.openDropdown = null;
             } else {
@@ -124,25 +125,13 @@ export default {
                 document.body.removeEventListener('click', this.closeDropdown);
             }
         },
-        getAllCollge() {
-            axios.get('/college/get_all_college').then(res => {
-                this.colleges = res.data.data
-            }).catch()
-        },
-        getDepartment() {
-            axios.get('/department/get_department_for_college/' + this.college_id).then(res => {
-                this.departments = res.data.data
-            })
-        },
-        getCourses() {
-            axios.get('/course/get_course/' + this.department_id).then(res => {
-                this.courses = res.data.course
-            }).catch()
-        },
+     
     },
     mounted() {
-        this.getAllCollge()
+      this.fetchYourCourse()
+    },
+    beforeCreate() {
+  
     }
-
-}
-</script>
+  }
+  </script>

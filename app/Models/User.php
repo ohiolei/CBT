@@ -78,6 +78,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function course()
     {
-        return $this->hasManyThroug(Lecturer::class, Courses::class);
+        return $this->hasManyThrough(Lecturer::class, Courses::class);
     }
 }

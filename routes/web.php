@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\collegeController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserManagerController;
 
@@ -40,7 +41,7 @@ Route::prefix('college')->middleware(['admin', 'auth'])->name('college.')->group
 Route::prefix('department')->middleware(['admin', 'auth'])->name('department.')->group(function(){
     Route::post('/create_department', [DepartmentController::class, 'createDepartment'])->name('create_department');
     Route::get('/get_department/{id}', [DepartmentController::class, 'getDepartmentForCollege'])->name('get_department')->withoutMiddleware('admin');
-    Route::get('/get_department_for_college/{id}', [DepartmentController::class, 'getDepartment'])->name('get_department_for_colleg')->withoutMiddleware('admin');
+    Route::get('/get_department_for_college/{id}', [DepartmentController::class, 'getDepartment'])->name('get_department_for_college')->withoutMiddleware('admin');
     Route::get('/get_all_department', [DepartmentController::class, 'getAllDepartment'])->name('get_all_department')->withoutMiddleware('admin');
 });
 
@@ -48,9 +49,16 @@ Route::prefix('lecturer')->middleware(['auth', 'lecturer'])->name('lecturer.')->
     Route::get('/get_lecturer', [CourseController::class, 'getLecturer'])->name('get_lecturer');
     
 });
+Route::prefix('student')->middleware(['auth', 'student'])->name('student.')->group(function(){
+    Route::get('/student_department_id', [StudentController::class, 'StudentDepartmentID'])->name('student_department_id');
+    Route::get('/fetch_all_department', [StudentController::class, 'GetDepartments'])->name('fetch_all_department');
+    Route::patch('/register_department', [StudentController::class, 'RegisterDepartment'])->name('register_department');
+    
+});
 
 Route::prefix('course')->middleware(['auth', 'lecturer'])->name('course.')->group(function(){
     Route::get('/get_course_page', [CourseController::class, 'courseListPage'])->name('get_course_page');
+    Route::get('/coures_for_lecturer', [CourseController::class, 'fetchCourseForLecturer'])->name('coures_for_lecturer');
     Route::get('/get_course/{id}', [CourseController::class, 'courseList'])->name('get_course');
     Route::post('/create_course', [CourseController::class, 'createCourse'])->name('create_course');
     

@@ -22,7 +22,10 @@ class CourseController extends Controller
 
     public function createCourse(Request $request)
     {
-
+        $course_count = Courses::where('lecturer_id', $request->lecturer_id)->count();
+        
+        if($course_count <= 4)
+        {
         $course_create = Courses::create([
             'lecturer_id' => $request->lecturer_id,
             'department_id' => $request->department_id,
@@ -38,6 +41,10 @@ class CourseController extends Controller
         }
 
     }
+    else{
+        return response()->json(['message' => 'You have met required amount of courses you can take']);
+    }
+}
 
     public function courseListPage(){
 
@@ -50,19 +57,31 @@ class CourseController extends Controller
         
         $lecturerIds = $course->pluck('lecturer_id')->toArray();
       
-        // Ensure that $lecturerIds is not empty before querying the database
+       
         if (!empty($lecturerIds)) {
             $user_lecturer = Lecturer::whereIn('id', $lecturerIds)->with('User')->get();
             return response()->json(['lecturer_data' => $user_lecturer, 'course' => $course], 200);
         } else {
-            // Handle the case where no lecturer IDs are found
+           
             return response()->json(['error' => 'No lecturer IDs found', 'course' => $course], 404);
         }
         // return response()->json(['course' => $course], 200);
     }
 
- 
     
+    public function fetchCourseForLecturer(){
+        $authUser = auth()->user();
+        $lecturer = Lecturer::where('user_id', $authUser->id)->first();
+
+        $course = Courses::where('lecturer_id', $lecturer->id)->get();
+       
+        if($course){
+            return response()->json(['data' => $course], 200);
+        }
+        else{
+            return response()->json(['message' => 'You do not have any course assigned to you'], 404);
+        }
+    }
 
 
 }

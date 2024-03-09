@@ -31,8 +31,13 @@ const submit = () => {
 
 <template>
     <Head title="Log in" />
-
-    <AuthenticationCard>
+    <div class="mx-auto">
+    <div class="grid grid-cols-2 gap-4">
+        <div class="col-span-1 bg-cover bg-center" style="background-image: url('/nagato.webp');">
+            <!-- Content for the first column -->
+        </div>
+        <div class="col-span-1">
+            <AuthenticationCard>
         <template #logo>
             <AuthenticationCardLogo />
         </template>
@@ -78,4 +83,9 @@ const submit = () => {
             </div>
         </form>
     </AuthenticationCard>
+        </div>
+    </div>
+</div>
+    
+   
 </template>

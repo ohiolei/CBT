@@ -52,7 +52,9 @@ Route::prefix('lecturer')->middleware(['auth', 'lecturer'])->name('lecturer.')->
 Route::prefix('student')->middleware(['auth', 'student'])->name('student.')->group(function(){
     Route::get('/student_department_id', [StudentController::class, 'StudentDepartmentID'])->name('student_department_id');
     Route::get('/fetch_all_department', [StudentController::class, 'GetDepartments'])->name('fetch_all_department');
+    Route::get('/fetch_course', [StudentController::class, 'GetCourse'])->name('fetch_course');
     Route::patch('/register_department', [StudentController::class, 'RegisterDepartment'])->name('register_department');
+    Route::post('/register_course', [StudentController::class, 'RegisterCourse'])->name('register_course');
     
 });
 

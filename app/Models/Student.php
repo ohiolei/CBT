@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\StudentCourses;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
 {
@@ -21,4 +22,15 @@ class Student extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function studentCourses()
+    {
+        return $this->hasOne(StudentCourses::class);
+    }
+
+    public function getCoursesAttribute()
+    {
+        return json_decode($this->studentCourse->courses, true);
+    }
+
 }

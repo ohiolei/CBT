@@ -206,6 +206,7 @@ export default {
 </script>
 <style scoped>
 .sidebar-header-bg {
+    box-shadow:  0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     background-color: white;
     padding: 2.1rem;
 }

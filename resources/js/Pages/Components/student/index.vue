@@ -27,19 +27,32 @@
                 </div>
 
                 <div v-else>
-                        <div class="bg-white p-6 rounded m-5">
+                        <div class="flex flex-row">
+                                <div class="bg-white p-6 rounded m-5">
 
-                                <span>
-                                        Click
                                         <span>
-                                                <button class="text-red-500" @click="openRegisterCourseModal()">
-                                                        here
-                                                </button>
+                                                Click
+                                                <span>
+                                                        <button class="text-red-500" @click="openRegisterCourseModal()">
+                                                                here
+                                                        </button>
+                                                </span>
+                                                to register your course
                                         </span>
-                                        to register your course
-                                </span>
-                        </div>
+                                </div>
+                                <div class="bg-white p-6 rounded m-5">
 
+                                        <span>
+                                                Click
+                                                <span>
+                                                        <button class="text-red-500" @click="openCourseModal()">
+                                                                here
+                                                        </button>
+                                                </span>
+                                                to view your course
+                                        </span>
+                                </div>
+                        </div>
                         <!-- <div class="bg-white p-6 rounded m-5">
 
                         </div>
@@ -50,18 +63,22 @@
                 </div>
         </div>
         <register :showRegisterCourseModal="showRegisterCourseModal" @close="closeRegisterCourseModal()" />
+        <Course :showCourseModal="showCourseModal" @close="closeCourseModal()" />
 </template>
 
 <script>
 import axios from 'axios';
 import register from './course/register.vue';
+import Course from './course/view.vue';
 export default {
         components: {
-                register
+                register,
+                Course
         },
         data() {
                 return {
                         showRegisterCourseModal: false,
+                        showCourseModal: false,
                         student_department_id: [],
                         colleges: null,
                         college_id: null,
@@ -77,6 +94,12 @@ export default {
                 closeRegisterCourseModal() {
                         this.showRegisterCourseModal = false;
                 },
+                openCourseModal() {
+                        this.showCourseModal = true;
+                },
+                closeCourseModal() {
+                        this.showCourseModal = false;
+                },
                 fetchStudentDepartmentID() {
                         axios.get('/student/student_department_id').then((res) => {
                                 this.student_department_id = res.data.student_department_id
@@ -85,13 +108,13 @@ export default {
                 fetchCollege() {
                         axios.get('/college/get_all_college').then((res) => {
                                 this.colleges = res.data.data
-                                console.log(this.colleges)
+
                         }).catch()
                 },
                 fetchDepartments() {
                         axios.get('/department/get_department_for_college/' + this.college_id).then((res) => {
                                 this.departments = res.data.data
-                                console.log(this.departments)
+
                         }).catch()
                 },
                 submitCollege() {

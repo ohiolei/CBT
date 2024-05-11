@@ -82,8 +82,9 @@
           } 
         ).then(res => {
           this.$toast.success(res.data.message)
+          window.location.reload()
         }).catch(err => {
-          this.$toast.error(err.data)
+          this.$toast.error(err.response.data.data)
         })
         this.closeModal()
       }

@@ -15,24 +15,27 @@
           </div>
           <!--body-->
           <div class="w-full">
-            <div class="my-1 text-blueGray-500 text-lg leading-relaxed p-6">
 
-              <!-- <select v-model="college_id" @change="fetchDepartment()" class="w-full my-1 px-4 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm border border-blueGray-300 focus:outline-none focus:border-teal-500 focus:ring focus:ring-teal-200">
-                    <option value="">
-                         -- College --
-                    </option>
-                    <option v-for="(college, index) in colleges" :key="index" :value="college.id">
-                        {{ college.college_name }}
-                    </option>
-               </select>
-               <select class="w-full my-1 px-4 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm border border-blueGray-300 focus:outline-none focus:border-teal-500 focus:ring focus:ring-teal-200">
-                    <option value="">
-                         -- Departments --
-                    </option>
-                    <option v-for="(department, index) in departments" :key="index" :value="department.id">
-                        {{ department.name }}
-                    </option>
-               </select> -->
+            <div class="my-1 text-blueGray-500 text-lg leading-relaxed p-6">
+              <div class="p-2 flex justify-end">
+                <div class="flex flex-row">
+
+                  <div>
+                    <input type="text" placeholder="Course Code"
+                      class="mx-2 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-gray-100 rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring" />
+                  </div>
+                  <div>
+                    
+                  </div>
+                  <div>
+                    <button class="bg-teal-500 p-2 rounded mx-2 text-white hover:bg-gray-100 hover:text-teal-600">
+                      Search
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
               <div class="flex flex-col">
                 <div class="-m-1.5 overflow-x-auto">
                   <div class="p-1.5 min-w-full inline-block align-middle">
@@ -58,10 +61,10 @@
                           <tr v-for="(course, index) in courses" :key="index">
                             <td
                               class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-600">
-                              {{ course.course_title }} 
+                              {{ course.course_title }}
                             </td>
-                              
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-600">  
+
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-600">
                               {{ course.course_code }}
                             </td>
 
@@ -69,7 +72,7 @@
                               {{ course.lecturer.name }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                              <button type="button"  @click="deleteCourse(index)"
+                              <button type="button" @click="deleteCourse(index)"
                                 class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Delete</button>
                             </td>
                           </tr>
@@ -77,7 +80,7 @@
 
                         </tbody>
                       </table>
-                     
+
                     </div>
                   </div>
                 </div>
@@ -92,7 +95,7 @@
               type="button" v-on:click="closeModal()">
               Close
             </button>
-            <button
+            <button v-on:click="registerCourse()"
               class="text-teal-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button">
               Register Course
@@ -124,15 +127,25 @@ export default {
       this.$emit('close');
     },
     deleteCourse(index) {
-      // Remove the course from the array
       this.courses.splice(index, 1);
     },
     fetchCourse() {
       axios.get('/student/fetch_course').then((res) => {
         this.courses = res.data.data
-        console.log(this.courses)
       })
     },
+    registerCourse() {
+      const course_json = JSON.stringify(this.courses)
+      axios.post('/student/register_course', {
+        courses: course_json
+      }).then(res => {
+        this.$toast.success(res.data.message)
+        window.location.reload()
+      }).catch(err => {
+
+        this.$toast.error(err.response.data.error)
+      }).finally()
+    }
   },
   mounted() {
     this.fetchCourse()

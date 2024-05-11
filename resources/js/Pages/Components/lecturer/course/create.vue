@@ -114,8 +114,9 @@ export default {
           course_code: this.course_code,
         }).then(res => {
           this.$toast.success(res.data.message)
+          window.location.reload()
         }).finally(this.closeModal()).catch(err => {
-          this.$toast.error(err.data)
+          this.$toast.error(err.response.data.data)
         })
       }
     }

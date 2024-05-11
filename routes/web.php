@@ -53,6 +53,8 @@ Route::prefix('student')->middleware(['auth', 'student'])->name('student.')->gro
     Route::get('/student_department_id', [StudentController::class, 'StudentDepartmentID'])->name('student_department_id');
     Route::get('/fetch_all_department', [StudentController::class, 'GetDepartments'])->name('fetch_all_department');
     Route::get('/fetch_course', [StudentController::class, 'GetCourse'])->name('fetch_course');
+    Route::get('/get_student_course', [StudentController::class, 'FetchStudentCourse'])->name('get_student_course');
+    Route::put('/update_student_course', [StudentController::class, 'UpdateStudentCourse'])->name('update_student_course');
     Route::patch('/register_department', [StudentController::class, 'RegisterDepartment'])->name('register_department');
     Route::post('/register_course', [StudentController::class, 'RegisterCourse'])->name('register_course');
     

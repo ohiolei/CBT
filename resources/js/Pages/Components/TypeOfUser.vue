@@ -128,11 +128,13 @@ export default {
         createStudent() {
             axios.post('user_manager/create_student').then(response => {
                 this.$toast.success(response.data.message);
+                window.location.reload()
             }).catch(err => this.$toast.error(err.response.data.error))
         },
         createLecturer() {
             axios.post('user_manager/create_lecturer', this.$page.props.auth.user.id).then(response => {
                 this.$toast.success(response.data.message);
+                window.location.reload()
             }).catch(err => this.$toast.error(err.response.data.error))
         },
         getStudentData() {

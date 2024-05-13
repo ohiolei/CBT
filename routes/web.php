@@ -65,6 +65,7 @@ Route::prefix('course')->middleware(['auth', 'lecturer'])->name('course.')->grou
     Route::get('/coures_for_lecturer', [CourseController::class, 'fetchCourseForLecturer'])->name('coures_for_lecturer');
     Route::get('/get_course/{id}', [CourseController::class, 'courseList'])->name('get_course');
     Route::post('/create_course', [CourseController::class, 'createCourse'])->name('create_course');
+    Route::get('/course_for_course_form', [CourseController::class, 'fetchCourseForCourseForm'])->name('course_for_course_form')->withoutMiddleware('lecturer');
     
 });
 

@@ -91,10 +91,21 @@ class StudentController extends Controller
         }
     }
 
-    public function UpdateStudentCourse()
+    public function UpdateStudentCourse(Request $request)
     {
         $user_id = auth()->user()->id;
         $student = Student::where('user_id', $user_id)->first();
+
+        $student_course= StudentCourses::where('student_id', $student->id)->update([
+            'courses' => $request->courses,
+        ]);
+
+        if ($student_course) {
+            return response()->json(['data' => $student_course], 200);
+        } else {
+            return response()->json(['message' => 'course form not updated'], 404);
+        }
+       
 
     }
 }

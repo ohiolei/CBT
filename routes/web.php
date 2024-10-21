@@ -9,6 +9,7 @@ use App\Http\Controllers\collegeController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserManagerController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,10 @@ Route::prefix('course')->middleware(['auth', 'lecturer'])->name('course.')->grou
     Route::post('/create_course', [CourseController::class, 'createCourse'])->name('create_course');
     Route::get('/course_for_course_form', [CourseController::class, 'fetchCourseForCourseForm'])->name('course_for_course_form')->withoutMiddleware('lecturer');
     
+});
+
+Route::prefix('test')->middleware(['auth', 'lecturer'])->name('test.')->group(function(){
+    Route::get('/', [TestController::class, 'index'])->name('index');
 });
 
 Route::middleware([

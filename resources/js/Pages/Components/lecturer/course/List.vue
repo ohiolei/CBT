@@ -65,11 +65,11 @@
                                     <div v-if="openDropdown === course.id"
                                         class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <!-- Dropdown options for this item -->
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <NavLink href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                             Edit
-                                        </a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</a>
+                                        </NavLink>
+                                        <NavLink href="#"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</NavLink>
                                     </div>
                                 </div>
                             </td>
@@ -85,6 +85,8 @@
 <script>
 import sidebar from '../../../../Layouts/sidebar.vue';
 import axios from 'axios';
+import NavLink from '@/Components/NavLink.vue';
+
 export default {
     layout: (h, page) => h(sidebar, [page]),
     components: {

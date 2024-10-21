@@ -7,6 +7,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import NavLink from '@/Components/NavLink.vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -69,8 +70,8 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <a href="register"
-                    class="underline mx-4 text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Register</a>
+                <NavLink href="register"
+                    class="underline mx-4 text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Register</NavLink>
 
                 <Link v-if="canResetPassword" :href="route('password.request')"
                     class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

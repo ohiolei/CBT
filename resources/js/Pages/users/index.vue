@@ -166,6 +166,7 @@ import axios from 'axios';
 import sidebar from '../../Layouts/sidebar.vue'
 import Pagination from '../Components/Pagination.vue'
 import Loading from 'vue-loading-overlay';
+import NavLink from '@/Components/NavLink.vue';
 import 'vue-loading-overlay/dist/css/index.css';
 
 export default {

@@ -2,24 +2,24 @@
     <div class="relative flex min-h-screen w-full">
         <!-- side bar -->
         <div class="bg-teal-500 text-cyan-200 w-64 absolute overflow-auto inset-y-0 left-0 md:relative md:-translate-x-0 transform -translate-x-full transition duration-200 easein-out" :class="{ 'relative -translate-x-0' : show}" v-if="show == true">
-            <a href="/" class="flex items-center space-x-2 sidebar-header-bg">
+            <NavLink href="/" class="flex items-center space-x-2 sidebar-header-bg">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-10 h-10">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
                 </svg>
                 <span class="text-2xl font-extrabold mx-3">CBT</span>
-            </a>
+            </NavLink>
             <nav>
-                <a href="/dashboard" class="flex item-center px-4 py-3 m-2 rounded m-5 hover:bg-white hover:text-teal-700">
+                <NavLink href="/dashboard" class="flex item-center px-4 py-3 m-2 rounded m-5 hover:bg-white hover:text-teal-700">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6 mx-2">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                     </svg>
                     <span>Dashboard</span>
-                </a>
-                <a href="/user_manager"
+                </NavLink>
+                <NavLink href="/user_manager"
                     class="flex item-center px-4 py-3 m-2 rounded m-5 hover:bg-white hover:text-teal-700"
                     v-if="$page.props.user_role == 'admin' || $page.props.user_role == 'super_admin'">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -30,8 +30,8 @@
 
 
                     User Manager
-                </a>
-                <a href="/" class="flex item-center px-4 py-3 m-2 rounded m-5 hover:bg-white hover:text-teal-700"
+                </NavLink>
+                <NavLink href="/" class="flex item-center px-4 py-3 m-2 rounded m-5 hover:bg-white hover:text-teal-700"
                     v-if="$page.props.user_role == 'student' || $page.props.user_role == 'super_admin'">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6 mx-2">
@@ -39,9 +39,19 @@
                             d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
                     </svg>
 
-                    Test
-                </a>
-                <a href="/" class="flex item-center px-4 py-3 m-2 rounded m-5 hover:bg-white hover:text-teal-700"
+                   Take Test
+                </NavLink>
+                <NavLink href="/test" class="flex item-center px-4 py-3 m-2 rounded m-5 hover:bg-white hover:text-teal-700"
+                    v-if="$page.props.user_role == 'lecturer' || $page.props.user_role == 'super_admin'">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6 mx-2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
+                    </svg>
+
+                     Set up Test
+                </NavLink>
+                <NavLink href="/" class="flex item-center px-4 py-3 m-2 rounded m-5 hover:bg-white hover:text-teal-700"
                     v-if="$page.props.user_role == 'lecturer' || $page.props.user_role == 'super_admin'">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6 mx-2">
@@ -50,9 +60,9 @@
                     </svg>
 
                     Questions
-                </a>
+                </NavLink>
 
-                <a href="/" class="flex item-center px-4 py-3 m-2 rounded m-5 hover:bg-white hover:text-teal-700"
+                <NavLink href="/" class="flex item-center px-4 py-3 m-2 rounded m-5 hover:bg-white hover:text-teal-700"
                     v-if="$page.props.user_role == 'student' || $page.props.user_role == 'super_admin'">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6 mx-2">
@@ -61,8 +71,8 @@
                     </svg>
 
                     Calender
-                </a>
-                <a href="/" class="flex item-center px-4 py-3 m-2 rounded m-5 hover:bg-white hover:text-teal-700">
+                </NavLink>
+                <NavLink href="/user/profile" class="flex item-center px-4 py-3 m-2 rounded m-5 hover:bg-white hover:text-teal-700">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6 mx-2">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -71,8 +81,8 @@
                     </svg>
 
                     <span>Settings</span>
-                </a>
-                <a href="" @click="logout()"
+                </NavLink>
+                <NavLink href="" @click="logout()"
                     class="flex item-center m-2 px-4 py-3 rounded m-5 hover:bg-white hover:text-teal-700">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6 mx-2">
@@ -81,7 +91,7 @@
                     <span>
                         Logout
                     </span>
-                </a>
+                </NavLink>
             </nav>
         </div>
         <!-- end side bar -->
@@ -121,21 +131,21 @@
                             <div v-bind:class="{ 'hidden': !dropdownPopoverShow, 'block': dropdownPopoverShow }"
                                 class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mt-1"
                                 style="min-width:12rem" ref="popoverDropdownRef">
-                                <a href="#pablo"
+                                <NavLink href="#pablo"
                                     class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent  text-blueGray-700">
                                     Action
-                                </a>
-                                <a href="#pablo"
+                                </NavLink>
+                                <NavLink href="#pablo"
                                     class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent  text-blueGray-700">
                                     Another action
-                                </a>
-                                <a href="#pablo"
+                                </NavLink>
+                                <NavLink href="#pablo"
                                     class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent  text-blueGray-700">
                                     Something else here
-                                </a>
+                                </NavLink>
                                 <div class="h-0 my-2 border border-solid border-t-0 border-blueGray-800 opacity-25">
                                 </div>
-                                <a @click="logout" href=""
+                                <NavLink @click="logout" href=""
                                     class="text-sm py-2 px-4 flex row font-normal block w-full whitespace-nowrap bg-transparent  text-blueGray-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-2">
@@ -145,7 +155,7 @@
                                     <span>
                                         Logout
                                     </span>
-                                </a>
+                                </NavLink>
                             </div>
                         </div>
                     </div>
@@ -167,11 +177,12 @@
 <script>
 import axios from 'axios';
 import { createPopper } from "@popperjs/core";
+import NavLink from '@/Components/NavLink.vue';
 
 export default {
 
     components: {
-
+        NavLink
     },
     data() {
         return {

@@ -41,7 +41,7 @@
                                 d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
                         </svg>
                         <h2 class="ml-3 text-xl font-semibold text-gray-900">
-                            <a href="https://laracasts.com">Lecturer</a>
+                            <NavLink href="https://laracasts.com">Lecturer</NavLink>
                         </h2>
                     </div>
 
@@ -108,6 +108,7 @@ import StdIndex from './student/index.vue'
 import ltrIndex from './lecturer/index.vue'
 import super_admin from './super_admin/index.vue'
 import axios from 'axios';
+import NavLink from '@/Components/NavLink.vue';
 
 export default {
     props: {

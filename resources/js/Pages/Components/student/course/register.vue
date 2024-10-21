@@ -209,7 +209,7 @@ export default {
     },
     registerCourse() {
       const course_json = JSON.stringify(this.courses)
-      axios.put('/student/register_course', {
+      axios.post('/student/register_course', {
         courses: course_json
       }).then(res => {
         this.$toast.success(res.data.message)

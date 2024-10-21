@@ -9,7 +9,7 @@
             </span>
         </div>
         <div class="bg-white p-6 rounded m-5">
-           Click <a href="/course/get_course_page" class="text-red-500">Here</a> to view courses
+           Click <NavLink href="/course/get_course_page" class="text-red-500">Here</NavLink> to view courses
         </div>
         <div class="bg-white p-6 rounded m-5">
             <span>click here to view </span>
@@ -29,10 +29,13 @@
 <script>
 import createCourse from './course/create.vue'
 import viewCourse from './course/view.vue'
+import NavLink from '@/Components/NavLink.vue';
+
 export default {
     components: {
         createCourse,
         viewCourse,
+        NavLink,
     }, 
     data() {
         return{

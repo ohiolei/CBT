@@ -141,6 +141,7 @@ export default {
         getStudentData() {
             axios.get('user_manager/fetch_student_matric').then((res) => {
                 this.student = res.data.data
+                console.log()
             })
         }
     },
